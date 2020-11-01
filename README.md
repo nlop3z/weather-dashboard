@@ -8,6 +8,7 @@ An application that runs in the browser and allows you to see the weather outloo
 * CSS
 * JavaScript
 * Fetch API
+* Bootstrap
 
 ## URL deployed application:
 
