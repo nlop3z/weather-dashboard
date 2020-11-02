@@ -19,7 +19,8 @@ function find(c){
     return 1;
 }
 //API key setup
-var APIKey="1c61cac0defede7cfc0c5ddc2fc52007";
+//var APIKey="1c61cac0defede7cfc0c5ddc2fc52007";
+var APIKey="d91f911bcf2c0f925fb6535547a5ddc9";
 // shows current weather based on search input
 function displayWeather(event){
     event.preventDefault();
