@@ -4,10 +4,10 @@ var searchCity = $("#search-city");
 var searchButton = $("#search-button");
 var clearButton = $("#clear-history");
 var currentCity = $("#current-city");
-var currentTemperature = $("#temperature");
+var currentTemp = $("#temperature");
 var currentHumidty= $("#humidity");
-var currentWSpeed=$("#wind-speed");
-var currentUvindex= $("#uv-index");
+var currentWindSpeed=$("#wind-speed");
+var currentUvIndex= $("#uv-index");
 var sCity=[];
 // searches city to see if it exists in storage input
 function find(c){
@@ -19,8 +19,7 @@ function find(c){
     return 1;
 }
 //API key setup
-//var APIKey="1c61cac0defede7cfc0c5ddc2fc52007";
-var APIKey="d91f911bcf2c0f925fb6535547a5ddc9";
+var APIKey="1c61cac0defede7cfc0c5ddc2fc52007";
 // shows current weather based on search input
 function displayWeather(event){
     event.preventDefault();
@@ -50,16 +49,16 @@ function currentWeather(city){
         
         // Convert temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-        $(currentTemperature).html((tempF).toFixed(2)+"&#8457");
+        $(currentTemp).html((tempF).toFixed(2)+"&#8457");
         // Humidity
         $(currentHumidty).html(response.main.humidity+"%");
         // Wind speed (convert -> MPH)
         var ws=response.wind.speed;
         var windsmph=(ws*2.237).toFixed(1);
-        $(currentWSpeed).html(windsmph+"MPH");
+        $(currentWindSpeed).html(windsmph+"MPH");
         // UVIndex
         // Use app id and coordinates as parameter with geo coordinates method to build uv query url inside fx
-        UVIndex(response.coord.lon,response.coord.lat);
+        UvIndex(response.coord.lon,response.coord.lat);
         forecast(response.id);
         if(response.cod==200){
             sCity=JSON.parse(localStorage.getItem("cityname"));
@@ -83,20 +82,20 @@ function currentWeather(city){
     });
 }
     // Returns the UVIindex response
-function UVIndex(ln,lt){
+function UvIndex(ln,lt){
     // Builds the url for uvindex
     var uvqURL="https://api.openweathermap.org/data/2.5/uvi?appid="+ APIKey+"&lat="+lt+"&lon="+ln;
     $.ajax({
             url:uvqURL,
             method:"GET"
             }).then(function(response){
-                $(currentUvindex).html(response.value);
+                $(currentUvIndex).html(response.value);
             });
 }
     
 // 5 day forecast for current city
 function forecast(cityid){
-    var dayover= false;
+    var day= false;
     var queryforcastURL="https://api.openweathermap.org/data/2.5/forecast?id="+cityid+"&appid="+APIKey;
     $.ajax({
         url:queryforcastURL,
@@ -138,7 +137,7 @@ function invokePastSearch(event){
 }
 
 // render function
-function loadlastCity(){
+function loadLastCity(){
     $("ul").empty();
     var sCity = JSON.parse(localStorage.getItem("cityname"));
     if(sCity!==null){
@@ -162,7 +161,7 @@ function clearHistory(event){
 // Click handlers
 $("#search-button").on("click",displayWeather);
 $(document).on("click",invokePastSearch);
-$(window).on("load",loadlastCity);
+$(window).on("load",loadLastCity);
 $("#clear-history").on("click",clearHistory);
 
 
